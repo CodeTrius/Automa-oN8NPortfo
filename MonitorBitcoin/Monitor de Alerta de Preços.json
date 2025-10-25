@@ -1,0 +1,147 @@
+{
+  "name": "Monitor de Alerta de Preços",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0af3eb29-e25c-42f4-9913-51cc02ae8a71",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=brl",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        176,
+        0
+      ],
+      "id": "a78bce7f-1f92-4410-b89e-315860ef0e36",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "725abfa7-2187-498e-97d7-358e29eb3482",
+              "leftValue": "={{ $json.bitcoin.brl }}",
+              "rightValue": "={{ 600000 }}",
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        384,
+        0
+      ],
+      "id": "f67daa74-0d4f-462a-81dc-4834d14d28df",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=🚨 ALERTA DE PREÇO! 🚨\n\nO Bitcoin caiu abaixo da sua meta de R$ 600000!\n\nPreço Atual: R$ {{ $json.bitcoin.brl }} abaixo.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        592,
+        -96
+      ],
+      "id": "7eb2bf58-96d7-485f-ac08-d552bf4a765d",
+      "name": "Discord",
+      "webhookId": "00259e00-1211-427e-a50a-9c32591fea9c",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "lFb2WuH6oi0aNvFW",
+          "name": "Discord Webhook account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8c1f6042-6edd-4ca7-9d3f-34a4e39c4bfb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2c2d6cf4aa8c767ce3cf6501fed9b521afe68a0aaa616d1fa235d3069d35eb94"
+  },
+  "id": "ZUuqsWUaFBEoLmKv",
+  "tags": []
+}

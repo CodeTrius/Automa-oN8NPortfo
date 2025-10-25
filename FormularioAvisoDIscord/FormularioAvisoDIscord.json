@@ -1,0 +1,236 @@
+{
+  "name": "Api de Leads",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "99b54a5e-b53d-43a0-a141-f8c5ecd3ec24",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        192,
+        0
+      ],
+      "id": "baf2c26f-ba61-4bbc-8986-42a3e27c1328",
+      "name": "Webhook",
+      "webhookId": "99b54a5e-b53d-43a0-a141-f8c5ecd3ec24"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=🎉 **Novo Lead Capturado!** 🎉\n\n**Nome:** {{ $json.Nome }}\n**Email:** {{ $json.Email }}\n**Telefone:** {{ $json.Telefone }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        864,
+        0
+      ],
+      "id": "928e0f55-1c84-4026-9ada-8c05a7adf19e",
+      "name": "Discord",
+      "webhookId": "fc56d32d-2015-45a1-ae2c-eb035d57851e",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "lFb2WuH6oi0aNvFW",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8d2c4d92-62d5-4271-ac3c-e4801b33770b",
+              "name": "=Nome",
+              "value": "={{ (($json.body.nome || $json.query.nome) ?? \"\").toTitleCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "52db754e-b341-4a6d-8ea2-e63f9968d0d0",
+              "name": "Email",
+              "value": "={{ ($json.body.email || $json.query.email) ?? \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "8405f94c-2d87-435e-9bba-bbb447274f56",
+              "name": "Telefone",
+              "value": "={{ ($json.body.telefone || $json.query.telefone) ?? \"\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "6bbecb87-13dc-4941-accf-174d7aaada6b",
+      "name": "Recebe a variavel"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1Nj8JTetq9VzyO4oxUx-pvW3Z6q5BhvNUD2dTQ6tFqsU/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1Nj8JTetq9VzyO4oxUx-pvW3Z6q5BhvNUD2dTQ6tFqsU/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $json.Nome }}",
+            "Email": "={{ $json.Email }}",
+            "Telefone": "={{ $json.Telefone }}",
+            "Data de Registro": "={{ new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Data de Registro",
+              "displayName": "Data de Registro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        640,
+        0
+      ],
+      "id": "889266dd-89b3-4a0c-897f-a485f2c015e6",
+      "name": "Atualiza Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FhfF2kC4TvwF7kaW",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "Ola",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1072,
+        0
+      ],
+      "id": "d459c979-f4c8-4b58-b2cb-7a24e8f72f7d",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Recebe a variavel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recebe a variavel": {
+      "main": [
+        [
+          {
+            "node": "Atualiza Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1,
+    "availableInMCP": false,
+    "errorWorkflow": "ohJdtvpAj4ZaYHZZ"
+  },
+  "versionId": "d0e8660a-1172-4a06-abcb-09a55adc6c18",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2c2d6cf4aa8c767ce3cf6501fed9b521afe68a0aaa616d1fa235d3069d35eb94"
+  },
+  "id": "ohJdtvpAj4ZaYHZZ",
+  "tags": []
+}
