@@ -30,7 +30,7 @@ Tecnologias Utilizadas
 
     Discord (Nó): Para enviar a mensagem de alerta.
 
-Como Funciona (Detalhes do Fluxo)
+Como Funciona
 
     Schedule Trigger: O fluxo é iniciado automaticamente no intervalo definido (ex: a cada hora, no minuto 0).
 
