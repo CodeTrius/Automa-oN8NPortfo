@@ -78,13 +78,13 @@ Como Testar
 
     Verifique sua planilha e seu canal do Discord!
 
-<img width="1288" height="320" alt="image" src="https://github.com/user-attachments/assets/09d1abe5-ed88-4e92-a3e0-22a6248b7d84" />
+<img width="1288" height="320" alt="image" src="https://github.com/user-attachments/assets/09d1abe5-ed88-4e92-a3e0-22a6248b7d84"/>
 
 
-<img width="1065" height="460" alt="image" src="https://github.com/user-attachments/assets/8f40d1eb-0151-4ead-bce6-6892dfbaa07b" />
+<img width="1065" height="460" alt="image" src="https://github.com/user-attachments/assets/8f40d1eb-0151-4ead-bce6-6892dfbaa07b"/>
 
 
-<img width="398" height="826" alt="image" src="https://github.com/user-attachments/assets/22a2cc8b-4ccb-4ded-a44e-737384cccb17" />
+<img width="398" height="826" alt="image" src="https://github.com/user-attachments/assets/22a2cc8b-4ccb-4ded-a44e-737384cccb17"/>
 
-<img width="419" height="693" alt="image" src="https://github.com/user-attachments/assets/f3dbac60-2f65-4be8-80fd-f86e04a115f8" />
+<img width="419" height="693" alt="image" src="https://github.com/user-attachments/assets/f3dbac60-2f65-4be8-80fd-f86e04a115f8"/>
 
